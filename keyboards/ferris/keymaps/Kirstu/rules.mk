@@ -3,3 +3,4 @@ CONVERT_TO = liatris
 COMBO_ENABLE = yes
 KEY_OVERRIDE_ENABLE = yes
 DEBOUNCE_TYPE = sym_eager_pk
+MOUSEKEY_ENABLE = yes

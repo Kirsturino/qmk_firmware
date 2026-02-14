@@ -1,14 +1,14 @@
 #include QMK_KEYBOARD_H
 
-#define L_BASE      0
-#define L_NAV       1
-#define L_NUM       2
-#define L_SYM       3
-#define L_MEDIA     4
-#define L_FUN       5
-#define L_GAME      6
-#define L_BUTTON    7
-#define L_UNITY     8
+#define L_BASE    0
+#define L_NAV     1
+#define L_NUM     2
+#define L_SYM     3
+#define L_MEDIA   4
+#define L_FUN     5
+#define L_GAME    6
+#define L_BUTTON  7
+#define L_UNITY   8
 
 #define LT_NAV      LT(L_NAV,      KC_SPC)
 #define LT_NUM      LT(L_NUM,      KC_BSPC)
@@ -30,8 +30,8 @@
 
     [L_NAV] = LAYOUT(
         KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_HOME,        KC_COPY,        KC_NO,          KC_PASTE,       KC_END,
-        KC_LGUI,        KC_LALT,        KC_LCTL,        KC_LSFT,        KC_NO,                      CW_TOGG,        KC_NO,          KC_LEFT,        KC_UP,          KC_RIGHT,
-        KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_CAPS,        KC_PAGE_UP,     KC_DOWN,        KC_PAGE_DOWN,   KC_NO,
+        KC_LGUI,        KC_LALT,        KC_LCTL,        KC_LSFT,        KC_NO,                      CW_TOGG,        KC_LEFT,        KC_UP,          KC_RIGHT,       KC_CAPS,
+        KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      MS_BTN4,        KC_PAGE_UP,     KC_DOWN,        KC_PAGE_DOWN,   MS_BTN5,
                                                         KC_TRNS,        KC_TRNS,                    KC_HOME,        KC_END
     ),
 
@@ -122,11 +122,20 @@ combo_t key_combos[] = {
     COMBO(c_game,           TG_GAME),
     COMBO(c_unity_left,     TO_UNITY),
     COMBO(c_unity_right,    TO_UNITY),
-    COMBO(c_base_left,          TO_BASE),
-    COMBO(c_base_right,          TO_BASE)
+    COMBO(c_base_left,      TO_BASE),
+    COMBO(c_base_right,     TO_BASE)
 };
 
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
 const key_override_t *key_overrides[] = {
 	&delete_key_override
 };
+
+// Disable tap dances for now
+/*
+#define TD_CAPS 0
+tap_dance_action_t tap_dance_actions[] = {
+    // Tap once for Escape, twice for Caps Lock
+    ACTION_TAP_DANCE_DOUBLE(CW_TOGG, KC_CAPS),
+};
+*/
