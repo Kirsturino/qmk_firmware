@@ -1,14 +1,15 @@
 #include QMK_KEYBOARD_H
 
-#define L_BASE    0
-#define L_NAV     1
-#define L_NUM     2
-#define L_SYM     3
-#define L_MEDIA   4
-#define L_FUN     5
-#define L_GAME    6
-#define L_BUTTON  7
-#define L_UNITY   8
+#define L_BASE      0
+#define L_NAV       1
+#define L_NUM       2
+#define L_SYM       3
+#define L_MEDIA     4
+#define L_FUN       5
+#define L_GAME      6
+#define L_BUTTON    7
+#define L_UNITY     8
+#define L_SETTINGS  9
 
 #define LT_NAV      LT(L_NAV,      KC_SPC)
 #define LT_NUM      LT(L_NUM,      KC_BSPC)
@@ -82,6 +83,13 @@
         KC_LSFT,        KC_A,           KC_W,           KC_D,           KC_F,                       KC_G,           KC_LEFT,        KC_UP,          KC_RIGHT,       LSFT(KC_L),
         KC_LCTL,        KC_Z,           KC_S,           KC_C,           KC_V,                       LCTL(KC_P),     KC_NO,          KC_DOWN,        KC_NO,          LSFT(KC_G),
                                                         KC_LALT,        KC_SPC,                     KC_B,           KC_K
+    ),
+
+    [L_SETTINGS] = LAYOUT(
+        KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+        KC_LGUI,        KC_LALT,        KC_LCTL,        KC_LSFT,        KC_NO,                      KC_NO,          QK_BOOT,        DB_TOGG,        EE_CLR,         QK_RBT,
+        KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+                                                        KC_TRNS,        KC_TRNS,                    KC_NO,          KC_NO
     )
 };              
 
@@ -131,11 +139,67 @@ const key_override_t *key_overrides[] = {
 	&delete_key_override
 };
 
-// Disable tap dances for now
-/*
-#define TD_CAPS 0
-tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for Escape, twice for Caps Lock
-    ACTION_TAP_DANCE_DOUBLE(CW_TOGG, KC_CAPS),
-};
-*/
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+  state = update_tri_layer_state(state, L_NUM, L_SYM, L_MEDIA);
+  state = update_tri_layer_state(state, L_NAV, L_FUN, L_SETTINGS);
+  return state;
+}
+
+void keyboard_post_init_user(void) {  
+    rgblight_enable_noeeprom();  
+    rgblight_sethsv_noeeprom(HSV_BLACK);  
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);  
+}
+
+
+void housekeeping_task_user(void) {
+    // Layer LED
+    switch (get_highest_layer(layer_state | default_layer_state))
+    {  
+        case 0:  
+            rgblight_setrgb_at(RGB_BLACK, 0);
+            rgblight_setrgb_at(RGB_BLACK, 1);
+            break;  
+        case 1:  
+            rgblight_setrgb_at(RGB_BLUE, 0);
+            rgblight_setrgb_at(RGB_BLUE, 1);
+            break;  
+        case 2:  
+            rgblight_setrgb_at(RGB_AZURE, 0);
+            rgblight_setrgb_at(RGB_AZURE, 1);
+            break;  
+        case 3:  
+            rgblight_setrgb_at(RGB_CYAN, 0);
+            rgblight_setrgb_at(RGB_CYAN, 1);
+            break;
+        case 4:  
+            rgblight_setrgb_at(RGB_SPRINGGREEN, 0);
+            rgblight_setrgb_at(RGB_SPRINGGREEN, 1);
+            break;  
+        case 5:  
+            rgblight_setrgb_at(RGB_GREEN, 0);
+            rgblight_setrgb_at(RGB_GREEN, 1);
+            break;  
+        case 6:  
+            rgblight_setrgb_at(RGB_CHARTREUSE, 0);
+            rgblight_setrgb_at(RGB_CHARTREUSE, 1);
+            break;  
+        case 7:  
+            rgblight_setrgb_at(RGB_YELLOW, 0);
+            rgblight_setrgb_at(RGB_YELLOW, 1);
+            break;
+        case 8:  
+            rgblight_setrgb_at(RGB_ORANGE, 0);
+            rgblight_setrgb_at(RGB_ORANGE, 1);
+            break;  
+        case 9:  
+            rgblight_setrgb_at(RGB_RED, 0); 
+            rgblight_setrgb_at(RGB_RED, 1); 
+            break;
+        default:
+            rgblight_setrgb_at(RGB_PINK, 0);
+            rgblight_setrgb_at(RGB_PINK, 1);
+        break;
+    }  
+}
