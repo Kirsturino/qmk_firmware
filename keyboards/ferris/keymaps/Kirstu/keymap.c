@@ -136,7 +136,7 @@ enum combos {
 };
 
 const uint16_t PROGMEM c_esc[] =            {KC_Q,      KC_W,           COMBO_END};
-const uint16_t PROGMEM c_game[] =           {KC_Q,      KC_R,           COMBO_END};
+const uint16_t PROGMEM c_game[] =           {KC_Q,      KC_T,           COMBO_END};
 const uint16_t PROGMEM c_unity_left[] =     {LT_NAV,    LCTL_T(KC_D),   COMBO_END};
 const uint16_t PROGMEM c_unity_right[] =    {LT_SYM,    RCTL_T(KC_K),   COMBO_END};
 const uint16_t PROGMEM c_base_left[] =      {LT_NAV,    LSFT_T(KC_F),   COMBO_END};

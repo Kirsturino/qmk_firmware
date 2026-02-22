@@ -3,7 +3,7 @@
 // Pick good defaults for enabling homerow modifiers
 #define TAPPING_TERM 150
 #define PERMISSIVE_HOLD
-#define QUICK_TAP_TERM 150
+#define QUICK_TAP_TERM 100
 
 // Mod tap settings
 #define TAPPING_TERM_PER_KEY

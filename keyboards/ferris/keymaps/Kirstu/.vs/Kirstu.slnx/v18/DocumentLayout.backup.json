@@ -32,10 +32,9 @@
               "RelativeDocumentMoniker": "rules.mk",
               "ToolTip": "C:\\Users\\Kirstu\\qmk_firmware\\keyboards\\ferris\\keymaps\\Kirstu\\rules.mk",
               "RelativeToolTip": "rules.mk",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-02-22T12:03:45.188Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-22T12:03:45.188Z"
             },
             {
               "$type": "Document",
@@ -47,8 +46,7 @@
               "RelativeToolTip": "config.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-02-22T11:57:18.449Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-22T11:57:18.449Z"
             },
             {
               "$type": "Document",
@@ -58,7 +56,7 @@
               "RelativeDocumentMoniker": "keymap.c",
               "ToolTip": "C:\\Users\\Kirstu\\qmk_firmware\\keyboards\\ferris\\keymaps\\Kirstu\\keymap.c",
               "RelativeToolTip": "keymap.c",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAAAG8AAABIAAAAAAAAAA==",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAcwIsAAABTAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2026-02-22T11:56:24.326Z",
               "EditorCaption": ""
