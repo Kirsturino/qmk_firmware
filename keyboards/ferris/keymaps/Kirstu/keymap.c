@@ -1,4 +1,11 @@
 #include QMK_KEYBOARD_H
+#include "gpio.h"
+
+// Turn power LED OFF
+void keyboard_pre_init_user(void) {
+    gpio_set_pin_output(24);
+    gpio_write_pin_high(24);
+}
 
 #define L_BASE      0
 #define L_NAV       1
@@ -52,7 +59,7 @@
 
     [L_MEDIA] = LAYOUT(
         KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
-        KC_NO,          KC_MPRV,        KC_VOLU,        KC_MNXT,        KC_NO,                      KC_LGUI,        KC_LALT,        KC_LCTL,        KC_LSFT,        KC_RIGHT,
+        KC_NO,          KC_MPRV,        KC_VOLU,        KC_MNXT,        KC_NO,                      KC_NO,          KC_LSFT,        KC_LCTL,        KC_LALT,        KC_LGUI,
         KC_NO,          KC_NO,          KC_VOLD,        KC_NO,          KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
                                                         KC_MUTE,        KC_MPLY,                    KC_TRNS,        KC_TRNS
     ),
@@ -68,16 +75,16 @@
         KC_TAB,         KC_Q,           KC_X,           KC_E,           KC_R,                       KC_T,           KC_Y,           KC_U,           KC_I,           KC_O,
         KC_LSFT,        KC_A,           KC_W,           KC_D,           KC_F,                       KC_G,           KC_H,           KC_J,           KC_K,           KC_L,
         KC_LALT,        KC_Z,           KC_S,           KC_C,           KC_V,                       KC_B,           KC_N,           KC_M,           KC_COMM,        KC_DOT,
-                                                        KC_LCTL,        KC_SPC,                     KC_P,           KC_TILD
+                                                        KC_LCTL,        KC_SPC,                     TG_GAME,        KC_TILD
     ),
 
     [L_BUTTON] = LAYOUT(
         KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
-        KC_NO,          KC_NO,          KC_UNDO,        KC_AGIN,        KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
-        KC_TRNS,        KC_CUT,         KC_COPY,        KC_PASTE,       KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+        KC_NO,          KC_NO,          LCTL(KC_Z),     LCTL(KC_Y),     KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+        KC_TRNS,        LCTL(KC_X),     LCTL(KC_C),     LCTL(KC_V),     KC_PENT,                    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
                                                         KC_BSPC,        KC_DEL,                     KC_NO,          KC_NO
     ),
-
+    
     [L_UNITY] = LAYOUT(
         KC_TAB,         KC_Q,           KC_X,           KC_E,           KC_R,                       KC_T,           KC_E,           KC_NO,          KC_R,           LSFT(KC_U),
         KC_LSFT,        KC_A,           KC_W,           KC_D,           KC_F,                       KC_G,           KC_LEFT,        KC_UP,          KC_RIGHT,       LSFT(KC_L),
@@ -91,7 +98,7 @@
         KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
                                                         KC_TRNS,        KC_TRNS,                    KC_NO,          KC_NO
     )
-};              
+};
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -101,37 +108,47 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             
         case LCTL_T(KC_D):
         case RCTL_T(KC_K):
-            return TAPPING_TERM * 1.2;
+            return TAPPING_TERM * 1.1;
 
         case LALT_T(KC_S):
         case LALT_T(KC_L):
-            return TAPPING_TERM * 1.5;
+            return TAPPING_TERM * 1.2;
 
         case LGUI_T(KC_A):
         case RGUI_T(KC_QUOTE):
-            return TAPPING_TERM * 2;
+            return TAPPING_TERM * 1.5;
 
         case LT_BUTTON:
-            return TAPPING_TERM * 2;
+            return TAPPING_TERM;
 
         default:
             return TAPPING_TERM;
     }
 }
 
-const uint16_t PROGMEM c_esc[] =            {KC_Q,      KC_W,   COMBO_END};
-const uint16_t PROGMEM c_game[] =           {KC_Q,      KC_R,   COMBO_END};
-const uint16_t PROGMEM c_unity_left[] =     {KC_SPC,    KC_D,   COMBO_END};
-const uint16_t PROGMEM c_unity_right[] =    {KC_PENT,   KC_K,   COMBO_END};
-const uint16_t PROGMEM c_base_left[] =      {KC_SPC,    KC_F,   COMBO_END};
-const uint16_t PROGMEM c_base_right[] =     {KC_PENT,   KC_J,   COMBO_END};
+enum combos {
+    QW_ESC,
+    QR_GAME,
+    SPCD_UNITY,
+    PENTK_UNITY,
+    SPCF_BASE,
+    PENTJ_BASE
+};
+
+const uint16_t PROGMEM c_esc[] =            {KC_Q,      KC_W,           COMBO_END};
+const uint16_t PROGMEM c_game[] =           {KC_Q,      KC_R,           COMBO_END};
+const uint16_t PROGMEM c_unity_left[] =     {LT_NAV,    LCTL_T(KC_D),   COMBO_END};
+const uint16_t PROGMEM c_unity_right[] =    {LT_SYM,    RCTL_T(KC_K),   COMBO_END};
+const uint16_t PROGMEM c_base_left[] =      {LT_NAV,    LSFT_T(KC_F),   COMBO_END};
+const uint16_t PROGMEM c_base_right[] =     {LT_SYM,   RSFT_T(KC_J),    COMBO_END};
+
 combo_t key_combos[] = {
-    COMBO(c_esc,            KC_ESC),
-    COMBO(c_game,           TG_GAME),
-    COMBO(c_unity_left,     TO_UNITY),
-    COMBO(c_unity_right,    TO_UNITY),
-    COMBO(c_base_left,      TO_BASE),
-    COMBO(c_base_right,     TO_BASE)
+    [QW_ESC] = COMBO(c_esc,            KC_ESC),
+    [QR_GAME] = COMBO(c_game,           TG_GAME),
+    [SPCD_UNITY] = COMBO(c_unity_left,     TO_UNITY),
+    [PENTK_UNITY] = COMBO(c_unity_right,    TO_UNITY),
+    [SPCF_BASE] = COMBO(c_base_left,      TO_BASE),
+    [PENTJ_BASE] = COMBO(c_base_right,     TO_BASE),
 };
 
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
@@ -139,67 +156,32 @@ const key_override_t *key_overrides[] = {
 	&delete_key_override
 };
 
-
 layer_state_t layer_state_set_user(layer_state_t state) {
-  state = update_tri_layer_state(state, L_NUM, L_SYM, L_MEDIA);
-  state = update_tri_layer_state(state, L_NAV, L_FUN, L_SETTINGS);
-  return state;
+    state = update_tri_layer_state(state, L_NUM, L_SYM, L_MEDIA);
+    state = update_tri_layer_state(state, L_NAV, L_FUN, L_SETTINGS);
+    return state;
 }
 
-void keyboard_post_init_user(void) {  
-    rgblight_enable_noeeprom();  
-    rgblight_sethsv_noeeprom(HSV_BLACK);  
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);  
+static uint16_t combo_disabler;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+        combo_disabler = timer_read();
+    }
+    return true;
 }
 
+bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    switch (combo_index) {
+        case SPCD_UNITY:
+        case PENTK_UNITY:
+        case SPCF_BASE:
+        case PENTJ_BASE:
+            // Disable homerow combos for 100ms when any key is pressed
+            if (timer_elapsed(combo_disabler) < 100) {
+                return false;
+            }
+    }
 
-void housekeeping_task_user(void) {
-    // Layer LED
-    switch (get_highest_layer(layer_state | default_layer_state))
-    {  
-        case 0:  
-            rgblight_setrgb_at(RGB_BLACK, 0);
-            rgblight_setrgb_at(RGB_BLACK, 1);
-            break;  
-        case 1:  
-            rgblight_setrgb_at(RGB_BLUE, 0);
-            rgblight_setrgb_at(RGB_BLUE, 1);
-            break;  
-        case 2:  
-            rgblight_setrgb_at(RGB_AZURE, 0);
-            rgblight_setrgb_at(RGB_AZURE, 1);
-            break;  
-        case 3:  
-            rgblight_setrgb_at(RGB_CYAN, 0);
-            rgblight_setrgb_at(RGB_CYAN, 1);
-            break;
-        case 4:  
-            rgblight_setrgb_at(RGB_SPRINGGREEN, 0);
-            rgblight_setrgb_at(RGB_SPRINGGREEN, 1);
-            break;  
-        case 5:  
-            rgblight_setrgb_at(RGB_GREEN, 0);
-            rgblight_setrgb_at(RGB_GREEN, 1);
-            break;  
-        case 6:  
-            rgblight_setrgb_at(RGB_CHARTREUSE, 0);
-            rgblight_setrgb_at(RGB_CHARTREUSE, 1);
-            break;  
-        case 7:  
-            rgblight_setrgb_at(RGB_YELLOW, 0);
-            rgblight_setrgb_at(RGB_YELLOW, 1);
-            break;
-        case 8:  
-            rgblight_setrgb_at(RGB_ORANGE, 0);
-            rgblight_setrgb_at(RGB_ORANGE, 1);
-            break;  
-        case 9:  
-            rgblight_setrgb_at(RGB_RED, 0); 
-            rgblight_setrgb_at(RGB_RED, 1); 
-            break;
-        default:
-            rgblight_setrgb_at(RGB_PINK, 0);
-            rgblight_setrgb_at(RGB_PINK, 1);
-        break;
-    }  
+    return true;
 }
