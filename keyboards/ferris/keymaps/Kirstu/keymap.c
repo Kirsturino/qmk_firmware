@@ -32,7 +32,7 @@ void keyboard_pre_init_user(void) {
     [L_BASE] = LAYOUT(
         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                       KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,
         LGUI_T(KC_A),   LALT_T(KC_S),   LCTL_T(KC_D),   LSFT_T(KC_F),   KC_G,                       KC_H,           RSFT_T(KC_J),   RCTL_T(KC_K),   LALT_T(KC_L),   RGUI_T(KC_QUOTE),
-        LT_BUTTON,      KC_X,           KC_C,           KC_V,           KC_B,                       KC_N,           KC_M,           KC_COMM,        KC_DOT,         KC_SLSH,
+        LT_BUTTON,      RALT_T(KC_X),   KC_C,           KC_V,           KC_B,                       KC_N,           KC_M,           KC_COMM,        RALT_T(KC_DOT), KC_SLSH,
                                                         LT_FUN,         LT_NAV,                     LT_SYM,         LT_NUM
     ),
 
@@ -163,25 +163,42 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 
 static uint16_t combo_disabler;
+static uint8_t held_keys = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-        combo_disabler = timer_read();
+    if (record->event.pressed && !IS_MODIFIER_KEYCODE(keycode)) {
+        held_keys++;
+    } else {
+        if (held_keys > 0) {
+            held_keys--;
+        }
     }
+	
+	combo_disabler = timer_read();
     return true;
 }
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
-    switch (combo_index) {
-        case SPCD_UNITY:
-        case PENTK_UNITY:
-        case SPCF_BASE:
-        case PENTJ_BASE:
-            // Disable homerow combos for 100ms when any key is pressed
-            if (timer_elapsed(combo_disabler) < 100) {
-                return false;
-            }
+	if (timer_elapsed(combo_disabler) < 500) {
+		return false;
     }
+	if (held_keys > 1) {
+        return false;
+    }
+	
+	if (layer_state_is(L_GAME)) {
+		return false;
+	}
+    
+    return true;
+}
+uint8_t combo_ref_from_layer(uint8_t layer){
+    switch (get_highest_layer(layer_state)){
+        case L_GAME: return L_GAME;
+        default: return L_BASE;
+    }
+}
 
+bool get_combo_must_tap(uint16_t combo_index, combo_t *combo) {
     return true;
 }

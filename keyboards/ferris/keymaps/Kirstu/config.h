@@ -1,23 +1,18 @@
 #pragma once
 
-// Pick good defaults for enabling homerow modifiers
-#define TAPPING_TERM 150
-#define PERMISSIVE_HOLD
-#define QUICK_TAP_TERM 100
-
 // Mod tap settings
+#define TAPPING_TERM 150
+#define QUICK_TAP_TERM 100
 #define TAPPING_TERM_PER_KEY
-#define FLOW_TAP_TERM 50
-#define CHORDAL_HOLD
-#define SPECULATIVE_HOLD
-#define PERMISSIVE_HOLD
+#define FLOW_TAP_TERM 100
 
-#define COMBO_TERM 50
+// Combos
+#define COMBO_TERM 20
 #define COMBO_STRICT_TIMER
-#define COMBO_ONLY_FROM_LAYER 0
+#define COMBO_MUST_TAP_PER_COMBO
 
 // Eager debounce
-#define DEBOUNCE 5
+#define DEBOUNCE 8
 
-// Manually set polling rate in case
+// Manually set polling rate just in case
 #define USB_POLLING_INTERVAL_MS 1
