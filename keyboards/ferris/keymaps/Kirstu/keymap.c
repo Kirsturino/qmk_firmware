@@ -128,27 +128,34 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
 enum combos {
     QW_ESC,
+    QW_ESC_GAME,
     QR_GAME,
+    QR_GAME_END,
     SPCD_UNITY,
     PENTK_UNITY,
     SPCF_BASE,
     PENTJ_BASE
 };
 
+// Combo ref layer not base on game layer, so some combos may seem weird
 const uint16_t PROGMEM c_esc[] =            {KC_Q,      KC_W,           COMBO_END};
+const uint16_t PROGMEM c_esc_game[] =       {KC_TAB,    KC_Q,           COMBO_END}; 
 const uint16_t PROGMEM c_game[] =           {KC_Q,      KC_T,           COMBO_END};
+const uint16_t PROGMEM c_game_end[] =       {KC_TAB,    KC_R,           COMBO_END};
 const uint16_t PROGMEM c_unity_left[] =     {LT_NAV,    LCTL_T(KC_D),   COMBO_END};
 const uint16_t PROGMEM c_unity_right[] =    {LT_SYM,    RCTL_T(KC_K),   COMBO_END};
 const uint16_t PROGMEM c_base_left[] =      {LT_NAV,    LSFT_T(KC_F),   COMBO_END};
 const uint16_t PROGMEM c_base_right[] =     {LT_SYM,   RSFT_T(KC_J),    COMBO_END};
 
 combo_t key_combos[] = {
-    [QW_ESC] = COMBO(c_esc,            KC_ESC),
-    [QR_GAME] = COMBO(c_game,           TG_GAME),
-    [SPCD_UNITY] = COMBO(c_unity_left,     TO_UNITY),
+    [QW_ESC] = COMBO(c_esc,                 KC_ESC),
+    [QW_ESC_GAME] = COMBO(c_esc_game,       KC_ESC),
+    [QR_GAME] = COMBO(c_game,               TG_GAME),
+    [QR_GAME_END] = COMBO(c_game_end,       TG_GAME),
+    [SPCD_UNITY] = COMBO(c_unity_left,      TO_UNITY),
     [PENTK_UNITY] = COMBO(c_unity_right,    TO_UNITY),
-    [SPCF_BASE] = COMBO(c_base_left,      TO_BASE),
-    [PENTJ_BASE] = COMBO(c_base_right,     TO_BASE),
+    [SPCF_BASE] = COMBO(c_base_left,        TO_BASE),
+    [PENTJ_BASE] = COMBO(c_base_right,      TO_BASE),
 };
 
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
@@ -179,7 +186,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
-	if (timer_elapsed(combo_disabler) < 500) {
+	if (timer_elapsed(combo_disabler) < 200) {
 		return false;
     }
 	if (held_keys > 1) {
@@ -187,7 +194,13 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     }
 	
 	if (layer_state_is(L_GAME)) {
-		return false;
+        switch (combo_index) {
+            case QW_ESC_GAME:
+            case QR_GAME_END:
+            return true;
+
+            default: return false;
+        }
 	}
     
     return true;
