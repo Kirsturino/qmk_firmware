@@ -199,16 +199,24 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
             case QR_GAME_END:
             return true;
 
-            default: return false;
+            default:
+            return false;
         }
 	}
+    else if (!layer_state_is(L_BASE) && !layer_state_is(L_UNITY)) {
+        return false;
+    }
     
     return true;
 }
-uint8_t combo_ref_from_layer(uint8_t layer){
-    switch (get_highest_layer(layer_state)){
-        case L_GAME: return L_GAME;
-        default: return L_BASE;
+
+uint8_t combo_ref_from_layer(uint8_t layer) {
+    switch (get_highest_layer(layer_state)) {
+        case L_GAME:
+        return L_GAME;
+
+        default:
+        return L_BASE;
     }
 }
 

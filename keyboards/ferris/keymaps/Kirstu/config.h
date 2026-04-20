@@ -9,7 +9,7 @@
 // Combos
 #define COMBO_TERM 50
 #define COMBO_STRICT_TIMER
-#define COMBO_MUST_TAP_PER_COMBO
+#define COMBO_SHOULD_TRIGGER
 
 // Eager debounce
 #define DEBOUNCE 10
