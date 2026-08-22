@@ -17,12 +17,14 @@ void keyboard_pre_init_user(void) {
 #define L_BUTTON    7
 #define L_UNITY     8
 #define L_SETTINGS  9
+#define L_MOUSE     10
 
 #define LT_NAV      LT(L_NAV,      KC_SPC)
 #define LT_NUM      LT(L_NUM,      KC_BSPC)
 #define LT_SYM      LT(L_SYM,      KC_PENT)
 #define LT_FUN      LT(L_FUN,      KC_TAB)
 #define LT_BUTTON   LT(L_BUTTON,   KC_Z)
+#define LT_MOUSE    LT(L_MOUSE,    KC_C)
 
 #define TG_GAME     TG(L_GAME)
 #define TO_UNITY    TO(L_UNITY)
@@ -32,7 +34,7 @@ void keyboard_pre_init_user(void) {
     [L_BASE] = LAYOUT(
         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                       KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,
         LGUI_T(KC_A),   LALT_T(KC_S),   LCTL_T(KC_D),   LSFT_T(KC_F),   KC_G,                       KC_H,           RSFT_T(KC_J),   RCTL_T(KC_K),   LALT_T(KC_L),   RGUI_T(KC_QUOTE),
-        LT_BUTTON,      RALT_T(KC_X),   KC_C,           KC_V,           KC_B,                       KC_N,           KC_M,           KC_COMM,        RALT_T(KC_DOT), KC_SLSH,
+        LT_BUTTON,      RALT_T(KC_X),   LT_MOUSE,       KC_V,           KC_B,                       KC_N,           KC_M,           KC_COMM,        RALT_T(KC_DOT), KC_SLSH,
                                                         LT_FUN,         LT_NAV,                     LT_SYM,         LT_NUM
     ),
 
@@ -97,7 +99,21 @@ void keyboard_pre_init_user(void) {
         KC_LGUI,        KC_LALT,        KC_LCTL,        KC_LSFT,        KC_NO,                      KC_NO,          QK_BOOT,        DB_TOGG,        EE_CLR,         QK_RBT,
         KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
                                                         KC_TRNS,        KC_TRNS,                    KC_NO,          KC_NO
+    ),
+
+    [L_MOUSE] = LAYOUT(
+        KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+        KC_NO,          MS_BTN1,        KC_NO,          MS_BTN2,        KC_NO,                      KC_NO,          MS_LEFT,        MS_UP,          MS_RGHT,        KC_NO,
+        KC_NO,          KC_NO,          KC_TRNS,        KC_NO,          KC_NO,                      KC_NO,          KC_NO,          MS_DOWN,        KC_NO,          KC_NO,
+                                                        KC_NO,          KC_NO,                      KC_NO,          KC_NO
     )
+
+    //[L_TEMPLATE] = LAYOUT(
+    //    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+    //    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+    //    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+    //                                                    KC_NO,          KC_NO,                      KC_NO,          KC_NO
+    //)
 };
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
@@ -134,18 +150,22 @@ enum combos {
     SPCD_UNITY,
     PENTK_UNITY,
     SPCF_BASE,
-    PENTJ_BASE
+    PENTJ_BASE,
+    O_BASE,
+    A_BASE
 };
 
 // Combo ref layer not base on game layer, so some combos may seem weird
-const uint16_t PROGMEM c_esc[] =            {KC_Q,      KC_W,           COMBO_END};
-const uint16_t PROGMEM c_esc_game[] =       {KC_TAB,    KC_Q,           COMBO_END}; 
-const uint16_t PROGMEM c_game[] =           {KC_Q,      KC_T,           COMBO_END};
-const uint16_t PROGMEM c_game_end[] =       {KC_TAB,    KC_R,           COMBO_END};
-const uint16_t PROGMEM c_unity_left[] =     {LT_NAV,    LCTL_T(KC_D),   COMBO_END};
-const uint16_t PROGMEM c_unity_right[] =    {LT_SYM,    RCTL_T(KC_K),   COMBO_END};
-const uint16_t PROGMEM c_base_left[] =      {LT_NAV,    LSFT_T(KC_F),   COMBO_END};
-const uint16_t PROGMEM c_base_right[] =     {LT_SYM,   RSFT_T(KC_J),    COMBO_END};
+const uint16_t PROGMEM c_esc[] =            {KC_Q,              KC_W,           COMBO_END};
+const uint16_t PROGMEM c_esc_game[] =       {KC_TAB,            KC_Q,           COMBO_END};
+const uint16_t PROGMEM c_game[] =           {KC_Q,              KC_T,           COMBO_END};
+const uint16_t PROGMEM c_game_end[] =       {KC_TAB,            KC_R,           COMBO_END};
+const uint16_t PROGMEM c_unity_left[] =     {KC_R,              KC_T,           COMBO_END};
+const uint16_t PROGMEM c_unity_right[] =    {KC_Y,              KC_U,           COMBO_END};
+const uint16_t PROGMEM c_base_left[] =      {KC_R,              KC_F,           COMBO_END};
+const uint16_t PROGMEM c_base_right[] =     {KC_H,              KC_U,           COMBO_END};
+const uint16_t PROGMEM c_base_o[] =         {KC_O,              KC_P,           COMBO_END};
+const uint16_t PROGMEM c_base_a[] =         {LGUI_T(KC_A),      LALT_T(KC_S),   COMBO_END};
 
 combo_t key_combos[] = {
     [QW_ESC] = COMBO(c_esc,                 KC_ESC),
@@ -156,41 +176,36 @@ combo_t key_combos[] = {
     [PENTK_UNITY] = COMBO(c_unity_right,    TO_UNITY),
     [SPCF_BASE] = COMBO(c_base_left,        TO_BASE),
     [PENTJ_BASE] = COMBO(c_base_right,      TO_BASE),
+    [O_BASE] = COMBO(c_base_o,              RALT(KC_O)),
+    [A_BASE] = COMBO(c_base_a,              RALT(KC_A)),
 };
 
-const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
+// Mod morph
+const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, LT_NUM, KC_DEL);
 const key_override_t *key_overrides[] = {
 	&delete_key_override
 };
 
+// Tri-state layers
 layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, L_NUM, L_SYM, L_MEDIA);
     state = update_tri_layer_state(state, L_NAV, L_FUN, L_SETTINGS);
     return state;
 }
 
+// Set up timer
 static uint16_t combo_disabler;
-static uint8_t held_keys = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed && !IS_MODIFIER_KEYCODE(keycode)) {
-        held_keys++;
-    } else {
-        if (held_keys > 0) {
-            held_keys--;
-        }
-    }
 	
 	combo_disabler = timer_read();
     return true;
 }
 
+// Combo timeout timer, disable combos on layers other than base, game and unity
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
-	if (timer_elapsed(combo_disabler) < 50) {
+	if (timer_elapsed(combo_disabler) < 200) {
 		return false;
-    }
-	if (held_keys > 1) {
-        return false;
     }
 	
 	if (layer_state_is(L_GAME)) {
@@ -210,6 +225,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     return true;
 }
 
+// Always get combos from base layer, unless on game layer
 uint8_t combo_ref_from_layer(uint8_t layer) {
     switch (get_highest_layer(layer_state)) {
         case L_GAME:
@@ -220,6 +236,7 @@ uint8_t combo_ref_from_layer(uint8_t layer) {
     }
 }
 
+// Must tap all combos
 bool get_combo_must_tap(uint16_t combo_index, combo_t *combo) {
     return true;
 }

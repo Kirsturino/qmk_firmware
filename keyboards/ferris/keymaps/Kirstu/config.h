@@ -16,3 +16,6 @@
 
 // Manually set polling rate just in case
 #define USB_POLLING_INTERVAL_MS 1
+
+// Mouse keys
+#define MK_KINETIC_SPEED
