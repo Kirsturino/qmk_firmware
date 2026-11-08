@@ -29,6 +29,7 @@ void keyboard_pre_init_user(void) {
 #define TG_GAME     TG(L_GAME)
 #define TO_UNITY    TO(L_UNITY)
 #define TO_BASE     TO(L_BASE)
+#define TO_GAME     TO(L_GAME)
 
  const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_BASE] = LAYOUT(
@@ -68,9 +69,9 @@ void keyboard_pre_init_user(void) {
 
     [L_FUN] = LAYOUT(
         KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_F12,         KC_F7,          KC_F8,          KC_F9,          KC_PSCR,
-        KC_LGUI,        KC_LALT,        KC_LCTL,        KC_LSFT,        KC_NO,                      KC_F11,         KC_F4,          KC_F5,          KC_F6,          KC_NO,
+        KC_LGUI,        KC_LALT,        KC_LCTL,        KC_LSFT,        KC_NO,                      KC_F11,         KC_F4,          KC_F5,          KC_F6,          TO_GAME,
         KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_F10,         KC_F1,          KC_F2,          KC_F3,          KC_NO,
-                                                        KC_TRNS,        KC_TRNS,                    KC_TRNS,        KC_TRNS
+                                                        KC_TRNS,        KC_TRNS,                    TO_UNITY,       TO_BASE
     ),
 
     [L_GAME] = LAYOUT(
@@ -91,7 +92,7 @@ void keyboard_pre_init_user(void) {
         KC_TAB,         KC_Q,           KC_X,           KC_E,           KC_R,                       KC_T,           KC_E,           KC_NO,          KC_R,           LSFT(KC_U),
         KC_LSFT,        KC_A,           KC_W,           KC_D,           KC_F,                       KC_G,           KC_LEFT,        KC_UP,          KC_RIGHT,       LSFT(KC_L),
         KC_LCTL,        KC_Z,           KC_S,           KC_C,           KC_V,                       LCTL(KC_P),     KC_NO,          KC_DOWN,        KC_NO,          LSFT(KC_G),
-                                                        KC_LALT,        KC_SPC,                     KC_B,           KC_K
+                                                        KC_LALT,        KC_SPC,                     TO_BASE,        KC_K
     ),
 
     [L_SETTINGS] = LAYOUT(
@@ -105,7 +106,7 @@ void keyboard_pre_init_user(void) {
         KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
         KC_NO,          MS_BTN1,        KC_NO,          MS_BTN2,        KC_NO,                      KC_NO,          MS_LEFT,        MS_UP,          MS_RGHT,        KC_NO,
         KC_NO,          KC_NO,          KC_TRNS,        KC_NO,          KC_NO,                      KC_NO,          KC_NO,          MS_DOWN,        KC_NO,          KC_NO,
-                                                        KC_NO,          KC_NO,                      KC_NO,          KC_NO
+                                                        KC_NO,          KC_NO,                      MS_BTN1,        MS_BTN2
     )
 
     //[L_TEMPLATE] = LAYOUT(
@@ -147,23 +148,14 @@ enum combos {
     QW_ESC_GAME,
     QR_GAME,
     QR_GAME_END,
-    SPCD_UNITY,
-    PENTK_UNITY,
-    SPCF_BASE,
-    PENTJ_BASE,
     O_BASE,
     A_BASE
 };
-
 // Combo ref layer not base on game layer, so some combos may seem weird
 const uint16_t PROGMEM c_esc[] =            {KC_Q,              KC_W,           COMBO_END};
 const uint16_t PROGMEM c_esc_game[] =       {KC_TAB,            KC_Q,           COMBO_END};
 const uint16_t PROGMEM c_game[] =           {KC_Q,              KC_T,           COMBO_END};
 const uint16_t PROGMEM c_game_end[] =       {KC_TAB,            KC_R,           COMBO_END};
-const uint16_t PROGMEM c_unity_left[] =     {KC_R,              KC_T,           COMBO_END};
-const uint16_t PROGMEM c_unity_right[] =    {KC_Y,              KC_U,           COMBO_END};
-const uint16_t PROGMEM c_base_left[] =      {KC_R,              KC_F,           COMBO_END};
-const uint16_t PROGMEM c_base_right[] =     {KC_H,              KC_U,           COMBO_END};
 const uint16_t PROGMEM c_base_o[] =         {KC_O,              KC_P,           COMBO_END};
 const uint16_t PROGMEM c_base_a[] =         {LGUI_T(KC_A),      LALT_T(KC_S),   COMBO_END};
 
@@ -172,10 +164,6 @@ combo_t key_combos[] = {
     [QW_ESC_GAME] = COMBO(c_esc_game,       KC_ESC),
     [QR_GAME] = COMBO(c_game,               TG_GAME),
     [QR_GAME_END] = COMBO(c_game_end,       TG_GAME),
-    [SPCD_UNITY] = COMBO(c_unity_left,      TO_UNITY),
-    [PENTK_UNITY] = COMBO(c_unity_right,    TO_UNITY),
-    [SPCF_BASE] = COMBO(c_base_left,        TO_BASE),
-    [PENTJ_BASE] = COMBO(c_base_right,      TO_BASE),
     [O_BASE] = COMBO(c_base_o,              RALT(KC_O)),
     [A_BASE] = COMBO(c_base_a,              RALT(KC_A)),
 };
